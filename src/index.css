@@ -13,4 +13,12 @@
   a {
     @apply cursor-pointer;
   }
+
+  input:not([type="checkbox"]):not([type="radio"]) {
+    @apply outline-none focus:ring-2 focus:ring-indigo-600 border border-gray-300 rounded-lg;
+  }
+
+  textarea {
+    @apply outline-none focus:ring-2 focus:ring-indigo-600 border border-gray-300 rounded-lg;
+  }
 }
