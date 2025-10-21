@@ -14,9 +14,11 @@ import {
   ChevronRightIcon,
 } from "lucide-react";
 import PersonalInfoForm from "../components/PersonalInfoForm";
+import ResumePreview from "../components/ResumePreview";
+import TemplateSelector from "../components/TemplateSelector";
 
 export default function ResumeBuilder() {
-  const { resumeId } = useParams();
+  const { resumeid } = useParams();
 
   const [resume, setResume] = useState({
     _id: "",
@@ -46,12 +48,12 @@ export default function ResumeBuilder() {
   const activeSection = sections[activeSectionIndex];
 
   useEffect(() => {
-    const found = dummyResumeData.find((r) => r._id === resumeId);
+    const found = dummyResumeData.find((r) => String(r._id) === String(resumeid));
     if (found) {
       setResume(found);
       document.title = found.title;
     }
-  }, [resumeId]);
+  }, [resumeid, dummyResumeData]);
 
   return (
     <div>
@@ -78,7 +80,9 @@ export default function ResumeBuilder() {
 
               {/* Section Navigation */}
               <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-                <div></div>
+                <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
+                  <TemplateSelector selectedTemplate={resume.template} onChange={(template) => setResume((prev) => ({ ...prev, template }))} />
+                </div>
                 <div className="flex items-center gap-2">
                   {activeSectionIndex !== 0 && (
                     <button
@@ -118,11 +122,17 @@ export default function ResumeBuilder() {
           </div>
 
           {/* Right Panel - Preview */}
-          <div className="lg:col-span-7">
-            <h1 className="text-2xl font-medium mb-6">Preview</h1>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            <div>
+              {/* --- buttons for changing the template and accent color --- */}
+            </div>
+
+            {/* --- reusme preview -- */}
+            <ResumePreview data={resume} template={resume.template} accentColor={resume.accent_color} />
           </div>
         </div>
       </div>
     </div>
   );
 }
+
